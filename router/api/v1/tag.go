@@ -8,6 +8,7 @@ import (
 	"github.com/maxlcoder/gin-web/pkg/setting"
 	"github.com/maxlcoder/gin-web/pkg/util"
 	"github.com/unknwon/com"
+	"log"
 	"net/http"
 )
 
@@ -28,6 +29,7 @@ func GetTags(c *gin.Context)  {
 	}
 
 	data["list"] = models.GetTags(util.GetPage(c), setting.PageSize, maps)
+	log.Println(data)
 	data["total"] = models.GetTotal(maps)
 
 	code := e.SUCCESS

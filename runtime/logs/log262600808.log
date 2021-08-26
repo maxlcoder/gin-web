@@ -1,0 +1,2 @@
+[INFO][auth.go:%!s(int=22)]2021/08/26 12:06:32 [Key: 'Auth.Username' Error:Field validation for 'Username' failed on the 'required' tag]
+[INFO][auth.go:22]2021/08/26 12:09:11 [Key: 'Auth.Username' Error:Field validation for 'Username' failed on the 'required' tag]

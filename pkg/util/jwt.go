@@ -3,7 +3,6 @@ package util
 import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/maxlcoder/gin-web/pkg/setting"
-	"log"
 	"time"
 )
 
@@ -16,8 +15,6 @@ type Claims struct {
 }
 
 func GenerateToken(username, password string) (string, error) {
-	log.Println(username)
-	log.Println(password)
 	nowTime := time.Now()
 	expireTime := nowTime.Add(3 * time.Hour)
 
@@ -31,8 +28,6 @@ func GenerateToken(username, password string) (string, error) {
 	}
 
 	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	log.Println(jwtSecret)
 
 	token, err := tokenClaims.SignedString(jwtSecret)
 	return token, err

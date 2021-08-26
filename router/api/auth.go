@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/maxlcoder/gin-web/models"
 	"github.com/maxlcoder/gin-web/pkg/e"
+	"github.com/maxlcoder/gin-web/pkg/logging"
 	"github.com/maxlcoder/gin-web/pkg/util"
-	"log"
 	"net/http"
 )
 
@@ -19,6 +19,7 @@ func Login(c *gin.Context)  {
 	data := make(map[string]interface{})
 	code := e.INVALID_PARAMS
 	if err := c.ShouldBind(&auth); err != nil {
+		logging.Info(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"code": code,
 			"message": err.Error(),
@@ -33,7 +34,6 @@ func Login(c *gin.Context)  {
 	} else {
 		token, err := util.GenerateToken(auth.Username, auth.Password)
 		if err != nil {
-			log.Print(err)
 			code = e.ERROR_AUTH_TOKEN
 		} else {
 			data["token"] = token

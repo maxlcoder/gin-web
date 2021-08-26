@@ -13,9 +13,9 @@ func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var code int
 		//var data interface{}
-
 		authorizationHeader := request.AuthorizationHeaderExtractor
 		token, err := authorizationHeader.ExtractToken(c.Request)
+		code = e.SUCCESS
 		if err != nil {
 			code = e.INVALID_PARAMS
 		} else {
@@ -26,7 +26,6 @@ func JWT() gin.HandlerFunc {
 				code = e.ERROR_AUTH_CHECK_TOKEN_TIMEOUT
 			}
 		}
-
 		if code != e.SUCCESS {
 			c.JSON(http.StatusUnauthorized, gin.H{
 				"code": code,
