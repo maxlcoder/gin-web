@@ -19,19 +19,20 @@ var (
 	CertPemPath string
 	CertKeyPath string
 	EndPoint string
+
+	tlsConfig *tls.Config
 )
 
 func Serve() (err error){
 	EndPoint = ":" + ServerPort
+	tlsConfig = util.GetTLSConfig(CertPemPath, CertKeyPath)
+
 	conn, err := net.Listen("tcp", EndPoint)
 	if err != nil {
 		log.Printf("TCP Listen err:%v\n", err)
 	}
 
-	tlsConfig := util.GetTLSConfig(CertPemPath, CertKeyPath)
-	srv := createInternalServer(conn, tlsConfig)
-
-	log.Println("debug")
+	srv := createInternalServer(conn)
 
 	log.Printf("gRPC and https listen on: %s\n", ServerPort)
 	if err = srv.Serve(conn); err != nil {
@@ -43,7 +44,7 @@ func Serve() (err error){
 	return err
 }
 
-func createInternalServer(conn net.Listener, tlsConfig *tls.Config) (*http.Server) {
+func createInternalServer(conn net.Listener) (*http.Server) {
 	var opts []grpc.ServerOption
 
 	// grpc server
