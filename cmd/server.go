@@ -27,3 +27,4 @@ func init() {
 	serverCmd.Flags().StringVarP(&server.CertName, "cert-name", "", "grpc server name", "server's hostname")
 	rootCmd.AddCommand(serverCmd)
 }
+

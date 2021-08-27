@@ -1,4 +1,4 @@
-package client
+package main
 
 import (
 	pb "github.com/maxlcoder/gin-web/proto"
@@ -9,7 +9,8 @@ import (
 )
 
 func main() {
-	creds, err := credentials.NewClientTLSFromFile("../certs/server.pem", "dev")
+
+	creds, err := credentials.NewClientTLSFromFile("../certs/server.pem", "grpc server name")
 	if err != nil {
 		log.Println("Failed to create TLS credentials %v", err)
 	}
@@ -28,6 +29,7 @@ func main() {
 
 	r, err := c.SayHelloWorld(context, body)
 	if err != nil {
+		log.Println("fff")
 		log.Println(err)
 	}
 

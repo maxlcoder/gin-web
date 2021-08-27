@@ -1,11 +1,11 @@
 package server
 
 import (
-	"context"
 	"crypto/tls"
-	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/maxlcoder/gin-web/pkg/util"
 	pb "github.com/maxlcoder/gin-web/proto"
+	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"log"
@@ -14,14 +14,14 @@ import (
 )
 
 var (
-	ServerPort  string
-	CertName    string
+	ServerPort string
+	CertName string
 	CertPemPath string
 	CertKeyPath string
-	EndPoint    string
+	EndPoint string
 )
 
-func Serve() (err error) {
+func Serve() (err error){
 	EndPoint = ":" + ServerPort
 	conn, err := net.Listen("tcp", EndPoint)
 	if err != nil {
@@ -31,16 +31,19 @@ func Serve() (err error) {
 	tlsConfig := util.GetTLSConfig(CertPemPath, CertKeyPath)
 	srv := createInternalServer(conn, tlsConfig)
 
-	log.Printf("gRPC and https listen on: %s\n", ServerPort)
+	log.Println("debug")
 
-	if err = srv.Serve(tls.NewListener(conn, tlsConfig)); err != nil {
+	log.Printf("gRPC and https listen on: %s\n", ServerPort)
+	if err = srv.Serve(conn); err != nil {
 		log.Printf("ListenAndServe: %v\n", err)
 	}
+
+	log.Println("debug NewListener")
 
 	return err
 }
 
-func createInternalServer(conn net.Listener, tlsConfig *tls.Config) *http.Server {
+func createInternalServer(conn net.Listener, tlsConfig *tls.Config) (*http.Server) {
 	var opts []grpc.ServerOption
 
 	// grpc server
