@@ -2,6 +2,7 @@ package setting
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
 	"os"
 )
@@ -17,13 +18,15 @@ type Mysql struct {
 
 type Server struct {
 	HTTTPort string
+	PageSize int
+	JwtSecret string
 }
 
 var MysqlSetting = &Mysql{}
 var ServerSetting = &Server{}
 
 func init() {
-	mode := os.Getenv("GIN_MODE")
+	mode := os.Getenv(gin.EnvGinMode)
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./conf")
 	viper.SetConfigName(mode)
@@ -39,6 +42,8 @@ func init() {
 	MysqlSetting.User = viper.GetString("mysql.user")
 	MysqlSetting.Password = viper.GetString("mysql.password")
 
-	ServerSetting.HTTTPort = viper.GetString("app.http_port")
+	ServerSetting.HTTTPort = ":" + viper.GetString("app.http_port")
+	ServerSetting.PageSize = viper.GetInt("app.page_size")
+	ServerSetting.JwtSecret = viper.GetString("app.jwt_secret")
 
 }

@@ -18,19 +18,14 @@ type Model struct {
 
 func init() {
 	var (
-		err                                               error
+		err                          error
 		dbName, user, password, host string
 	)
 
-	sec, err := setting.Cfg.GetSection("database")
-	if err != nil {
-		log.Fatal(2, "Fail to get section 'database': %v", err)
-	}
-
-	dbName = sec.Key("NAME").String()
-	user = sec.Key("USER").String()
-	password = sec.Key("PASSWORD").String()
-	host = sec.Key("HOST").String()
+	dbName = setting.MysqlSetting.DB
+	user = setting.MysqlSetting.User
+	password = setting.MysqlSetting.Password
+	host = setting.MysqlSetting.Host
 
 	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		user,

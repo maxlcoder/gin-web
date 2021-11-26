@@ -28,7 +28,7 @@ func GetTags(c *gin.Context)  {
 		maps["state"] = state
 	}
 
-	data["list"] = models.GetTags(util.GetPage(c), setting.PageSize, maps)
+	data["list"] = models.GetTags(util.GetPage(c), setting.ServerSetting.PageSize, maps)
 	log.Println(data)
 	data["total"] = models.GetTotal(maps)
 

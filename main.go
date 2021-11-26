@@ -8,11 +8,11 @@ import (
 
 func main() {
 	r := gin.Default()
+	r.SetTrustedProxies([]string{"127.0.0.1"})
 	// 全局中间件
 	r.Use()
 	// 加载路由
 	router.LoadApiRouter(r)
-
 	// 启动端口
 	r.Run(setting.ServerSetting.HTTTPort)
 }
