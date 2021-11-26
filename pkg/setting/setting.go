@@ -1,54 +1,44 @@
 package setting
 
 import (
-	"github.com/go-ini/ini"
-	"log"
-	"time"
+	"fmt"
+	"github.com/spf13/viper"
+	"os"
 )
 
-var (
-	Cfg *ini.File
+// 配置
+type Mysql struct {
+	Host string
+	Port string
+	DB string
+	User string
+	Password string
+}
 
-	RunMode string
+type Server struct {
+	HTTTPort string
+}
 
-	HTTPPort int
-	ReadTimeout time.Duration
-	WriteTimeout time.Duration
-
-	PageSize int
-	JwtSecret string
-)
+var MysqlSetting = &Mysql{}
+var ServerSetting = &Server{}
 
 func init() {
-	var err error
-	Cfg, err = ini.Load("conf/app.ini")
-	if err != nil {
-		log.Fatalf("Fail to parse 'conf/app.ini': %v", err)
-	}
-	LoadBase()
-	LoadServer()
-	LoadApp()
-}
+	mode := os.Getenv("GIN_MODE")
+	viper.SetConfigType("yaml")
+	viper.AddConfigPath("./conf")
+	viper.SetConfigName(mode)
 
-func LoadBase() {
-	RunMode = Cfg.Section("").Key("RUN_MODE").MustString("debug")
-}
-
-func LoadServer() {
-	sec, err := Cfg.GetSection("server")
+	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatalf("Fail to get section 'server': %v", err)
+		panic(fmt.Errorf("Fatal error config file : %w \n", err))
 	}
-	HTTPPort = sec.Key("HTTP_PORT").MustInt(8081)
-	ReadTimeout = time.Duration(sec.Key("READ_TIMEOUT").MustInt(60)) * time.Second
-	WriteTimeout = time.Duration(sec.Key("WRITE_TIMEOUT").MustInt(60)) * time.Second
-}
 
-func LoadApp()  {
-	sec, err := Cfg.GetSection("app")
-	if err != nil {
-		log.Fatalf("Fail to get section 'app': %v", err)
-	}
-	JwtSecret = sec.Key("JWT_SECRET").MustString("!@)*#)!@U#@*!@!)")
-	PageSize = sec.Key("PAGE_SIZE").MustInt(10)
+	MysqlSetting.Host = viper.GetString("mysql.host")
+	MysqlSetting.Port = viper.GetString("mysql.port")
+	MysqlSetting.DB = viper.GetString("mysql.db")
+	MysqlSetting.User = viper.GetString("mysql.user")
+	MysqlSetting.Password = viper.GetString("mysql.password")
+
+	ServerSetting.HTTTPort = viper.GetString("app.http_port")
+
 }

@@ -1,0 +1,11 @@
+app:
+  http_port: 8081
+  page_size: 20
+  jwt_secret: 23347$040412
+
+mysql:
+  host: localhost
+  port: 3306
+  db: gin
+  user: gin
+  password: sercret

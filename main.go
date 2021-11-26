@@ -1,21 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/maxlcoder/gin-web/pkg/setting"
 	"github.com/maxlcoder/gin-web/router"
-	"net/http"
 )
 
 func main() {
-	r := router.InitRouter()
-	s := &http.Server{
-		Addr: fmt.Sprintf(":%d", setting.HTTPPort),
-		Handler: r,
-		ReadTimeout: setting.ReadTimeout,
-		WriteTimeout: setting.WriteTimeout,
-		MaxHeaderBytes: 1 << 20,
-	}
+	r := gin.Default()
+	// 全局中间件
+	r.Use()
+	// 加载路由
+	router.LoadApiRouter(r)
 
-	s.ListenAndServe()
+	// 启动端口
+	r.Run(setting.ServerSetting.HTTTPort)
 }
