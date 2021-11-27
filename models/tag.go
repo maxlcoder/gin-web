@@ -2,8 +2,8 @@ package models
 
 type Tag struct {
 	Model
-	TagName string `json:"name"`
-	State   int    `json:"state"`
+	TagName string `gorm:"default:'';not null" json:"name"`
+	State   int    `gorm:"default:0;not null" json:"state"`
 }
 
 func GetTags(pageNum int, pageSize int, maps interface{}) (tags []Tag) {

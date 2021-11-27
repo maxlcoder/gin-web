@@ -8,4 +8,4 @@ mysql:
   port: 3306
   db: gin
   user: root
-  password: sercret
+  password: 123456
