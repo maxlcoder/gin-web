@@ -8,7 +8,7 @@ import (
 	"log"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 type Model struct {
 	ID        int `gorm:"primary_key" json:"id"`
@@ -34,8 +34,13 @@ func init() {
 		host,
 		port,
 		dbName)
-	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 	}
+
+	// migration
+	//DB.AutoMigrate(&user_model.UserModel{})
+	//DB.AutoMigrate(&blog_model.BlogModel{})
+	//DB.AutoMigrate(&tag_model.TagModel{})
 }

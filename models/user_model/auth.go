@@ -1,8 +1,10 @@
-package models
+package user_model
+
+import "github.com/maxlcoder/gin-web/models"
 
 func CheckAuth(username, password string) bool {
 	var user User
-	db.Select("id").Where(User{
+	models.DB.Select("id").Where(User{
 		Name:     username,
 		Password: password,
 	}).First(&user)

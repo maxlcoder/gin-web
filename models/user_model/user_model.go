@@ -1,14 +1,20 @@
-package models
+package user_model
+
+import (
+	"github.com/maxlcoder/gin-web/models"
+	"gorm.io/gorm"
+)
 
 type User struct {
-	Model
+	models.Model
 	ID       int    `gorm:"primary_key" json:"id"`
 	Name     string `gorm:"default:'hello';not null" json:"username"`
 	Password string `gorm:"default:'';not null" json:"password"`
+	DeletedAt gorm.DeletedAt
 }
 
+// 自定注册
 func init() {
-	db.AutoMigrate(&User{})
 }
 
 func (user User) Say() string {
