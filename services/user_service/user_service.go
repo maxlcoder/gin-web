@@ -6,15 +6,16 @@ import (
 )
 
 type User struct {
-	id int
-	Name string
+	Id int `json:"id"`
+	Name string `json:"name"`
 }
 
-func (user *User) CreateUser() user_model.User {
+func (user *User) CreateUser() User {
 	userData := map[string]interface{}{
 		"name": user.Name,
 	}
 	userModel := user_model.Create(userData)
 	fmt.Println(userModel)
-	return userModel
+	user.Id = userModel.ID
+	return *user
 }
