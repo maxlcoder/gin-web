@@ -2,7 +2,7 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/maxlcoder/gin-web/models/user_model"
+	"github.com/maxlcoder/gin-web/models"
 	"github.com/maxlcoder/gin-web/pkg/e"
 	"github.com/maxlcoder/gin-web/pkg/logging"
 	"github.com/maxlcoder/gin-web/pkg/util"
@@ -28,7 +28,7 @@ func Login(c *gin.Context)  {
 		return
 	}
 
-	isExist := user_model.CheckAuth(auth.Username, auth.Password)
+	isExist := models.CheckAuth(auth.Username, auth.Password)
 	if !isExist {
 		code = e.ERROR_AUHT
 	} else {

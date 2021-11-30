@@ -8,12 +8,12 @@ import (
 	"log"
 )
 
-var DB *gorm.DB
+var db *gorm.DB
 
 type Model struct {
-	ID        int `gorm:"primary_key" json:"id"`
-	CreatedAt int `gorm:"autoCreateTime;not null" json:"created_at"`
-	UpdatedAt int `gorm:"autoUpdateTime;not null" json:"updated_at"`
+	ID        int `gorm:"primary_key"`
+	CreatedAt int `gorm:"autoCreateTime;not null"`
+	UpdatedAt int `gorm:"autoUpdateTime;not null"`
 }
 
 func init() {
@@ -34,13 +34,11 @@ func init() {
 		host,
 		port,
 		dbName)
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 	}
 
 	// migration
-	//DB.AutoMigrate(&user_model.UserModel{})
-	//DB.AutoMigrate(&blog_model.BlogModel{})
-	//DB.AutoMigrate(&tag_model.TagModel{})
+	db.AutoMigrate(&User{})
 }

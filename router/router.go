@@ -15,6 +15,7 @@ func LoadApiRouter(r *gin.Engine)  {
 	apiV1 := r.Group("api/v1")
 	apiV1.Use()
 	{
+		apiV1.GET("/me", user.Me)
 		apiV1.POST("/users", user.CreateUser)
 	}
 
