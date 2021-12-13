@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/viper"
-	"os"
 )
 
 // 配置
@@ -26,7 +25,7 @@ var MysqlSetting = &Mysql{}
 var ServerSetting = &Server{}
 
 func init() {
-	mode := os.Getenv(gin.EnvGinMode)
+	mode := gin.Mode()
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./conf")
 	viper.SetConfigName(mode)
