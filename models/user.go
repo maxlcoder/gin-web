@@ -8,7 +8,7 @@ import (
 type User struct {
 	Model
 	ID        int    `gorm:"primary_key"`
-	Name      string `gorm:"index;size:100;default:'hello';not null;comment:姓名"`
+	Name      string `gorm:"index;size:100;default:'';not null;comment:姓名"`
 	Password  string `gorm:"size:300;default:'';not null"`
 	Age       int8 `gorm:"default:0;not null"`
 	DeletedAt gorm.DeletedAt `gorm:"type:int(11);default:null"`
