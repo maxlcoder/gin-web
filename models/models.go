@@ -41,4 +41,5 @@ func init() {
 
 	// migration
 	db.AutoMigrate(&User{})
+	db.Migrator().AlterColumn(&User{}, "Name")
 }
